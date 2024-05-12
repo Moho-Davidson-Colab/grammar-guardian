@@ -1,6 +1,7 @@
 import os
-
 from flask import Flask
+from flaskr.blueprints.user import user_bp
+
 
 
 def create_app(test_config=None):
@@ -23,11 +24,13 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    
+    # register blueprint for user resources
+    app.register_blueprint(user_bp)
 
     # a simple page that says hello
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
     
-
     return app

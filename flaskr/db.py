@@ -1,14 +1,5 @@
 import sqlite3
 from flask import current_app, g
-import certifi
-from dotenv import load_dotenv
-import os
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
-
-
-load_dotenv()
-
 
 def get_db():
     if 'db' not in g:
@@ -20,19 +11,7 @@ def get_db():
 
     return g.db
 
-
 def close_db(e=None):
     db = g.pop('db', None)
-
     if db is not None:
         db.close()
-
-uri = os.getenv('MONGO_URI')
-print(uri) 
-
-try:
-    client = MongoClient(uri, server_api=ServerApi('1'), tlsCAFile=certifi.where())
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-    print(client.list_database_names())
-except Exception as e:
-    print(e)
