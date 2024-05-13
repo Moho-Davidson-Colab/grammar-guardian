@@ -9,6 +9,7 @@ pymongo = {extras = ["srv"], version = "*"}
 certifi = "*"
 python-dotenv = "*"
 pydantic = "*"
+bcrypt = "*"
 
 [dev-packages]
 
