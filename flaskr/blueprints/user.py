@@ -12,7 +12,6 @@ def create_user():
         collection = get_collection()
         result = collection.insert_one(user_object.model_dump())
         print(result.acknowledged)
-        print("test")
         return user_object.model_dump()
     except Exception as e:
         return str(e), 400
