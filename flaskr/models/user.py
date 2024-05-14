@@ -1,12 +1,16 @@
 from pydantic import BaseModel, Field
 import uuid
 from typing import Optional
-import bcrypt
-
+import bcrypt, jwt
+from datetime import datetime, timedelta, timezone
+from flask import current_app as app
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 class User(BaseModel):
     # id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    id: str = Field(...)
+    userId: str = Field(...)
     username: str = Field(...)
     password: str = Field(...)
 
@@ -17,3 +21,29 @@ class User(BaseModel):
     def check_password(self, hashed_password) -> bool:
         result = bcrypt.checkpw(self.password.encode('utf-8'), hashed_password)
         return result
+    
+    def encode_auth_token(self) -> str:
+        try:
+            payload = {
+                'exp': datetime.now(timezone.utc) + timedelta(days=0, minutes=5),
+                'sub': self.userId
+            }
+            return jwt.encode(
+                payload,
+                # app.config.get('SECRET_KEY'),
+                "dev",
+                algorithm='HS256'
+            )
+        except Exception as e:
+            return e
+
+    @staticmethod
+    def decode_auth_token(token) -> str:
+        try:
+            payload = jwt.decode(token, "dev", algorithms=['HS256'])
+            return payload['sub']
+        except jwt.ExpiredSignatureError:
+            return 'Signature expired. Please log in again.'
+        except jwt.InvalidTokenError:
+            return 'Invalid token. Please log in again.'
+    

@@ -10,6 +10,7 @@ certifi = "*"
 python-dotenv = "*"
 pydantic = "*"
 bcrypt = "*"
+pyjwt = "*"
 
 [dev-packages]
 
