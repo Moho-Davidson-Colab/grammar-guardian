@@ -5,6 +5,7 @@ import bcrypt, jwt
 from datetime import datetime, timedelta, timezone
 from flask import current_app as app
 from dotenv import load_dotenv
+import json
 import os
 load_dotenv()
 
