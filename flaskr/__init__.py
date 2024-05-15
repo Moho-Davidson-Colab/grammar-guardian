@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from flaskr.blueprints.user import user_bp
+from flaskr.blueprints.text import text_bp
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -26,8 +27,9 @@ def create_app(test_config=None):
     except OSError:
         pass
     
-    # register blueprint for user resources
+    # register blueprint
     app.register_blueprint(user_bp)
+    app.register_blueprint(text_bp)
 
     # a simple page that says hello
     @app.route('/hello')

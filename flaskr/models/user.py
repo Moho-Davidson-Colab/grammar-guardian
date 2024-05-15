@@ -5,8 +5,6 @@ import bcrypt, jwt
 from datetime import datetime, timedelta, timezone
 from flask import current_app as app
 from dotenv import load_dotenv
-import json
-import os
 load_dotenv()
 
 class User(BaseModel):
@@ -15,11 +13,11 @@ class User(BaseModel):
     username: str = Field(...)
     password: str = Field(...)
 
-    def hash_password(self) -> str: 
+    def hash_password(self) -> bytes: 
         hashed_password = bcrypt.hashpw(self.password.encode('utf-8'), bcrypt.gensalt(12))
         return hashed_password
     
-    def check_password(self, hashed_password) -> bool:
+    def check_password(self, hashed_password: bytes) -> bool:
         result = bcrypt.checkpw(self.password.encode('utf-8'), hashed_password)
         return result
     
@@ -39,7 +37,7 @@ class User(BaseModel):
             return e
 
     @staticmethod
-    def decode_auth_token(token) -> str:
+    def decode_auth_token(token: str) -> str:
         try:
             payload = jwt.decode(token, "dev", algorithms=['HS256'])
             return payload['sub']

@@ -1,22 +1,23 @@
 from flaskr.models.user import User
 from flask import Blueprint, request
-from flaskr.test_mongo import get_collection
+from flaskr.test_mongo import get_db
 
 
 user_bp = Blueprint('user', __name__)
+db = get_db()
+collection = db.get_collection('users')
 
 
-@user_bp.route('/user', methods=['POST'])
-def create_user():
+@user_bp.route('/signup', methods=['POST'])
+def signup_user():
     try:
         user_info = request.get_json()
-        user_object = User(**user_info)
-        collection = get_collection()
-        user_exists = collection.find_one({"userId": user_object.userId})
+        current_user = User(**user_info)
+        user_exists = collection.find_one({"userId": current_user.userId})
         if not user_exists:
-            user_object.password = user_object.hash_password()
-            result = collection.insert_one(user_object.model_dump())
-            token = user_object.encode_auth_token()
+            current_user.password = current_user.hash_password()
+            result = collection.insert_one(current_user.model_dump())
+            token = current_user.encode_auth_token()
             if result.acknowledged and token:
                     response_object = {
                         'status': 'success',
@@ -35,15 +36,14 @@ def create_user():
 def login_user():
     try:
         user_info = request.get_json()
-        user_object = User(**user_info)
-        collection = get_collection()
-        user_exists = collection.find_one({"userId": user_object.userId})
+        current_user = User(**user_info)
+        user_exists = collection.find_one({"userId": current_user.userId})
         if not user_exists:
             return "User does not exist", 400
-        valid_password = user_object.check_password(user_exists['password'])    
+        valid_password = current_user.check_password(user_exists['password'])    
         if not valid_password:
             return "Invalid password", 400
-        token = user_object.encode_auth_token()
+        token = current_user.encode_auth_token()
         if token:
             response_object = {
                 'status': 'success',
