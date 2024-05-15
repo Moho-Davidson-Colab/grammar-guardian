@@ -16,7 +16,15 @@ def create_user():
         if not user_exists:
             user_object.password = user_object.hash_password()
             result = collection.insert_one(user_object.model_dump())
-            return "User created successfully", 201
+            token = user_object.encode_auth_token()
+            if result.acknowledged and token:
+                    response_object = {
+                        'status': 'success',
+                        'message': 'Successfully registered.',
+                        'auth_token': token
+                    }
+                    return response_object, 201
+            return "Registration failed", 400
         else:
             return "User already exists", 400
     except Exception as e:
@@ -43,7 +51,6 @@ def login_user():
                 'auth_token': token
             }
             return response_object, 200
-        else:
-            return "Login failed", 400
+        return "Login failed", 400
     except Exception as e:
         return str(e), 400
