@@ -1,5 +1,10 @@
+import { Sign } from 'crypto';
+import { SignUp } from '../components/signUp'
+
 export function Auth() {
   return (
-    <div>AuthPage</div>
+    <div>
+      <SignUp />
+    </div>
   );
 }
