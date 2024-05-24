@@ -32,12 +32,12 @@ def signup_user():
         return str(e), 400
 
 
-@user_bp.route('/login', methods=['POST'])
+@user_bp.route('/signin', methods=['POST'])
 def login_user():
     try:
         user_info = request.get_json()
         current_user = User(**user_info)
-        user_exists = collection.find_one({"userId": current_user.userId})
+        user_exists = collection.find_one({"username": current_user.username})
         if not user_exists:
             return "User does not exist", 400
         valid_password = current_user.check_password(user_exists['password'])
