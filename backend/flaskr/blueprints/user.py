@@ -13,7 +13,7 @@ def signup_user():
     try:
         user_info = request.get_json()
         current_user = User(**user_info)
-        user_exists = collection.find_one({"userId": current_user.userId})
+        user_exists = collection.find_one({"username": current_user.username})
         if not user_exists:
             current_user.password = current_user.hash_password()
             result = collection.insert_one(current_user.model_dump())

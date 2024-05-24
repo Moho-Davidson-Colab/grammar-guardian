@@ -3,12 +3,15 @@ from flask import Flask
 from flaskr.blueprints.user import user_bp
 from flaskr.blueprints.text import text_bp
 from dotenv import load_dotenv
+from flask_cors import CORS
 load_dotenv()
 
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
+
     app.config.from_mapping(
         SECRET_KEY=os.getenv('SECRET_KEY'),
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -26,7 +29,7 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-    
+
     # register blueprint
     app.register_blueprint(user_bp)
     app.register_blueprint(text_bp)
@@ -35,7 +38,5 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
-    
 
-    
     return app

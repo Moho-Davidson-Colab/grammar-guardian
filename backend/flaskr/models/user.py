@@ -9,7 +9,7 @@ load_dotenv()
 
 
 class User(BaseModel):
-    userId: str = Field(default=uuid.uuid4(), alias="_id")
+    # userId: uuid = Field(default=uuid.uuid4(), alias="_id")
     username: str = Field(...)
     password: str = Field(...)
 
@@ -26,7 +26,7 @@ class User(BaseModel):
         try:
             payload = {
                 'exp': datetime.now(timezone.utc) + timedelta(days=0, minutes=5),
-                'sub': self.userId
+                'sub': self.username
             }
             return jwt.encode(
                 payload,
