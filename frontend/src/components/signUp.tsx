@@ -14,7 +14,8 @@ export function SignUp() {
       .then((response) => {
         console.log(response);
         if (response.status === 201) {
-          sessionStorage.setItem("auth_token", response.data.auth_token);
+          sessionStorage.setItem("access_token", response.data.access_token);
+          document.cookie = `refresh_token=${response.data.refresh_token}`;
         }
       })
       .catch((error) => {

@@ -22,12 +22,21 @@ class User(BaseModel):
         result = bcrypt.checkpw(self.password.encode('utf-8'), hashed_password)
         return result
 
-    def encode_auth_token(self) -> str:
+    @staticmethod
+    def encode_auth_token(username: str, token_type: str) -> str:
         try:
-            payload = {
-                'exp': datetime.now(timezone.utc) + timedelta(days=0, minutes=5),
-                'sub': self.username
-            }
+            if token_type == 'refresh_token':
+                payload = {
+                    'exp': datetime.now(timezone.utc) + timedelta(days=0, minutes=30),
+                    'token_type': token_type,
+                    'sub': username
+                }
+            elif token_type == 'access_token':
+                payload = {
+                    'exp': datetime.now(timezone.utc) + timedelta(days=0, minutes=1),
+                    'token_type': token_type,
+                    'sub': username
+                }
             return jwt.encode(
                 payload,
                 # app.config.get('SECRET_KEY'),
@@ -41,7 +50,7 @@ class User(BaseModel):
     def decode_auth_token(token: str) -> str:
         try:
             payload = jwt.decode(token, "dev", algorithms=['HS256'])
-            return payload['sub']
+            return payload
         except jwt.ExpiredSignatureError:
             return 'Signature expired. Please log in again.'
         except jwt.InvalidTokenError:
