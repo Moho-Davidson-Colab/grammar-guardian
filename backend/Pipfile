@@ -5,15 +5,16 @@ name = "pypi"
 
 [packages]
 flask = "*"
-pymongo = {extras = ["srv"], version = "*"}
+pymongo = {extras = ["srv"] }
 certifi = "*"
 python-dotenv = "*"
 pydantic = "*"
 bcrypt = "*"
 pyjwt = "*"
 flask-cors = "*"
-tensorflow = "*"
 transformers = "*"
+tf-keras = "*"
+torch = "*"
 
 [dev-packages]
 

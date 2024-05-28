@@ -8,7 +8,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
 # Function to generate corrected text
 
 
-def generate_text(model, tokenizer, text, num_beams=5, min_length=1, max_length=500):
+def generate_text(model, tokenizer, text, num_beams=5, min_length=1, max_length=50):
     inputs = tokenizer(text, return_tensors="pt")
     outputs = model.generate(
         inputs["input_ids"],
