@@ -12,6 +12,8 @@ pydantic = "*"
 bcrypt = "*"
 pyjwt = "*"
 flask-cors = "*"
+tensorflow = "*"
+transformers = "*"
 
 [dev-packages]
 
