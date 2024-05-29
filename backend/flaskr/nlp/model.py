@@ -1,14 +1,31 @@
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+import os
+
 
 # Load the model and tokenizer
-model_path = "./version_3"
-tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
+
 
 # Function to generate corrected text
+# model_path = "./version_3"
+# tokenizer = AutoTokenizer.from_pretrained(model_path)
+# model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
 
+# def generate_text(model, tokenizer, text, num_beams=5, min_length=1, max_length=50) -> str:
+#     inputs = tokenizer(text, return_tensors="pt")
+#     outputs = model.generate(
+#         inputs["input_ids"],
+#         num_beams=num_beams,
+#         min_length=min_length,
+#         max_length=max_length
+#     )
+#     return tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-def generate_text(model, tokenizer, text, num_beams=5, min_length=1, max_length=50):
+def generate_text(text, num_beams=5, min_length=1, max_length=50) -> str:
+    text = "grammar: " + text
+    root_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(root_dir, 'version_3')
+    tokenizer = AutoTokenizer.from_pretrained(model_path)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
     inputs = tokenizer(text, return_tensors="pt")
     outputs = model.generate(
         inputs["input_ids"],
@@ -20,9 +37,9 @@ def generate_text(model, tokenizer, text, num_beams=5, min_length=1, max_length=
 
 
 # Example texts
-example_1 = "grammar: Although I was sick but I still went to school."
-result_1 = generate_text(model, tokenizer, example_1)
-print(result_1)
+# example_1 = "grammar: Although I was sick but I still went to school."
+# result_1 = generate_text(example_1)
+# print(result_1)
 
 # example_2 = "grammar: My kids are back in school to. I find their are less things to worry about now that the kids are at school all day. There is plenty of fun things to do in the summer, but by August, I’ve running out of ideas. I’ve excepted the fact that we’ll have to think up brand-new activities next summer; hoping to round up some creative ideas soon."
 # result_2 = generate_text(model, tokenizer, example_2)
