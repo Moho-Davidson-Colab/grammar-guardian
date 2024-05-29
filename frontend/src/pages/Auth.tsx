@@ -1,5 +1,12 @@
+import { Sign } from "crypto";
+import { SignUp } from "../components/signUp";
+import { SignIn } from "../components/signIn";
+
 export function Auth() {
   return (
-    <div>AuthPage</div>
+    <div>
+      <SignUp />
+      <SignIn />
+    </div>
   );
 }
