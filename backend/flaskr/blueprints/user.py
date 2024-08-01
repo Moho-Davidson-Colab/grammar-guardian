@@ -1,6 +1,6 @@
 from flaskr.models.user import User
 from flask import Blueprint, request
-from backend.flaskr.db import get_db
+from flaskr.db import get_db
 
 
 user_bp = Blueprint('user', __name__)
