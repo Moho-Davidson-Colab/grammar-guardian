@@ -9,9 +9,10 @@ load_dotenv()
 
 
 class User(BaseModel):
-    # userId: uuid = Field(default=uuid.uuid4(), alias="_id")
     username: str = Field(...)
     password: str = Field(...)
+    firstname: str = Field(...)
+    lastname: str = Field(...)
 
     def hash_password(self) -> bytes:
         hashed_password = bcrypt.hashpw(
