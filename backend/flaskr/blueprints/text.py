@@ -1,6 +1,6 @@
 from flaskr.models.text import Text
 from flask import Blueprint, request
-from flaskr.test_mongo import get_db
+from backend.flaskr.db import get_db
 from flaskr.nlp.model import generate_text
 
 text_bp = Blueprint('text', __name__)

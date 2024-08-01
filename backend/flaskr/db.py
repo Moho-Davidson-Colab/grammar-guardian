@@ -1,17 +1,16 @@
-import sqlite3
-from flask import current_app, g
+import certifi
+from dotenv import load_dotenv
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+import os
+load_dotenv()
 
 def get_db():
-    if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        g.db.row_factory = sqlite3.Row
-
-    return g.db
-
-def close_db(e=None):
-    db = g.pop('db', None)
-    if db is not None:
-        db.close()
+    uri = os.getenv('MONGO_URI')
+    try:
+        client = MongoClient(uri, server_api=ServerApi('1'), tlsCAFile=certifi.where())
+        print("Pinged your deployment. You successfully connected to MongoDB!")
+        db = client.get_database('sample_mflix')
+        return db
+    except Exception as e:
+        print(e)
