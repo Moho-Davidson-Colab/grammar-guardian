@@ -47,14 +47,18 @@ def login_user():
         valid_password = current_user.check_password(user_exists['password'])
         if not valid_password:
             return "Invalid password", 400
-        token = current_user.encode_auth_token()
-        if token:
+        access_token = User.encode_auth_token(
+            current_user.username, "access_token")
+        refresh_token = User.encode_auth_token(
+            current_user.username, "refresh_token")
+        if access_token and refresh_token:
             response_object = {
                 'status': 'success',
-                'message': 'Successfully logged in.',
-                'auth_token': token
+                'message': 'Successfully login.',
+                'access_token': access_token,
+                'refresh_token': refresh_token
             }
-            return response_object, 200
+            return response_object, 201
         return "Login failed", 400
     except Exception as e:
         return str(e), 400

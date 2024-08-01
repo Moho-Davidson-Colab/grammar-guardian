@@ -24,8 +24,9 @@ export default function Test() {
       })
       .then((response) => {
         console.log(response);
-        if (response.status === 200) {
-          sessionStorage.setItem("auth_token", response.data.auth_token);
+        if (response.status === 201) {
+          sessionStorage.setItem("access_token", response.data.access_token);
+          document.cookie = `refresh_token=${response.data.refresh_token}`;
           navigate("/home");
         }
       })
