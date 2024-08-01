@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from typing import Optional
 import uuid
 import bcrypt
 import jwt
@@ -11,8 +12,8 @@ load_dotenv()
 class User(BaseModel):
     username: str = Field(...)
     password: str = Field(...)
-    firstname: str = Field(...)
-    lastname: str = Field(...)
+    firstname: Optional[str] = None
+    lastname: Optional[str] = None
 
     def hash_password(self) -> bytes:
         hashed_password = bcrypt.hashpw(
