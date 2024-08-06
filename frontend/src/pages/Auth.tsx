@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { SignUp } from "../components/signUp";
-import { SignIn } from "../components/signIn";
-import Test from "../components/login";
+import Login from "../components/login";
 import Register from "../components/register";
 import { Button, Container, Box } from "@mui/material";
 
@@ -19,7 +17,7 @@ export function Auth() {
           {showSignIn ? "Switch to Sign Up" : "Switch to Sign In"}
         </Button>
       </Box>
-      {showSignIn ? <Test /> : <Register />}
+      {showSignIn ? <Login /> : <Register />}
     </Container>
   );
 }

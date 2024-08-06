@@ -12,7 +12,7 @@ import Container from "@mui/material/Container";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function Test() {
+export default function Login() {
   const navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
