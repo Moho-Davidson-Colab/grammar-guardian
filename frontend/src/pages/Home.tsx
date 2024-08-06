@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Textbox from "../components/textbox";
+import Box from "@mui/material/Box";
 
 export function Home() {
   const navigate = useNavigate();
