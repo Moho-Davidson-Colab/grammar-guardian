@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function Home() {
+  const navigate = useNavigate();
   let value = `; ${document.cookie}`;
   let parts = value.split(`; refresh_token=`)!;
   let refresh_token = parts.pop()?.split(";").shift();
@@ -21,7 +23,9 @@ export function Home() {
           }
         })
         .catch((error) => {
-          alert(error.response.data);
+          console.log(error);
+          alert(error.response.data.message);
+          navigate("/");
         });
 
     refreshToken();
