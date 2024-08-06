@@ -20,7 +20,7 @@ import os
 #     )
 #     return tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-def generate_text(text, num_beams=5, min_length=1, max_length=50) -> str:
+def generate_text(text, num_beams=5, min_length=1, max_length=100) -> str:
     text = "grammar: " + text
     root_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(root_dir, 'version_3')

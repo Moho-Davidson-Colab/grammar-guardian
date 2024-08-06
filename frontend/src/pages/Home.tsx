@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Textbox from "../components/textbox";
 
 export function Home() {
   const navigate = useNavigate();
@@ -31,5 +32,9 @@ export function Home() {
     refreshToken();
   }, []);
 
-  return <div>HomePage</div>;
+  return (
+    <div>
+      <Textbox />
+    </div>
+  );
 }
