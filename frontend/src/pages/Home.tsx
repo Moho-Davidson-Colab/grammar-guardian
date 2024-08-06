@@ -15,6 +15,10 @@ export function Home() {
         })
         .then((response) => {
           console.log(response);
+          if (response.status === 200) {
+            sessionStorage.setItem("access_token", response.data.access_token);
+            document.cookie = `refresh_token=${response.data.refresh_token}`;
+          }
         })
         .catch((error) => {
           alert(error.response.data);
