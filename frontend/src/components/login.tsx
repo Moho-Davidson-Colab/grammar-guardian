@@ -11,8 +11,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
+  const { authUser, setAuthUser, isAuthenticated, setIsAuthenticated } =
+    useAuth();
   const navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,6 +30,7 @@ export default function Login() {
         if (response.status === 201) {
           sessionStorage.setItem("access_token", response.data.access_token);
           document.cookie = `refresh_token=${response.data.refresh_token}`;
+          setIsAuthenticated(true);
           navigate("/home");
         }
       })
